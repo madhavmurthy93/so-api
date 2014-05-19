@@ -26,6 +26,7 @@ app.get('/get/newest/:limit?', routes.search);
 app.get('/get/featured/:limit?', routes.search);
 app.get('/get/active/:limit?', routes.search);
 app.get('/get/unanswered/:limit?', routes.search);
+app.get('/get/frequent/:limit?', routes.search);
 app.get('/get/question/:id', routes.question);
 
 app.use(function(req, res, next) {
