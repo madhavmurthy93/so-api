@@ -59,6 +59,7 @@ exports.search = function(req, res) {
 						   'reputation-score': rep});
 			}
 		});
+		res.set({'content-type': 'application/json; charset=utf-8'});
 		res.json({'questions': json});
 	});
 };
