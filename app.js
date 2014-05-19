@@ -22,9 +22,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', routes.index);
-app.get('/get/newest/:limit?', routes.newest);
-app.get('/get/featured/:limit?', routes.featured);
-app.get('/get/active/:limit?', routes.active);
+app.get('/get/newest/:limit?', routes.search);
+app.get('/get/featured/:limit?', routes.search);
+app.get('/get/active/:limit?', routes.search);
 app.get('/get/question/:id', routes.question);
 
 app.use(function(req, res, next) {
