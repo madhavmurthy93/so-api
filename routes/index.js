@@ -124,3 +124,32 @@ exports.active = function(req, res) {
 		res.json({'questions': json});
 	});
 };
+
+exports.question = function(req, res) {
+	var url = 'http://stackoverflow.com/questions/' + req.params.id;
+	request(url, function(err, response, body) {
+		if (err) console.log(err);
+		var $ = cheerio.load(body);
+		var question = $('#question-header h1 a').text();
+		var tags = '';
+		$('#mainbar .post-taglist a').each(function() {
+			tags = tags + $(this).text() + ' ';
+		});
+		tags = tags.trim();
+		var answers = [];
+		$('#mainbar .answer').each(function() {
+			var answer_summary = $(this);
+			var id = answer_summary.attr('data-answerid');
+			var answer = '';
+			answer_summary.children('table').children('tr').first().children('.answercell').children('.post-text').children().each(function() {
+				answer = answer + $(this).text() + ' ';
+			});
+			answer = answer.trim();
+			answers.push({'id': id,
+						  'answer': answer});
+		});
+		res.json({'question': question,
+				  'tags': tags,
+				  'answers': answers});
+	});
+}

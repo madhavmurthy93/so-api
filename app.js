@@ -25,6 +25,7 @@ app.get('/', routes.index);
 app.get('/get/newest/:limit?', routes.newest);
 app.get('/get/featured/:limit?', routes.featured);
 app.get('/get/active/:limit?', routes.active);
+app.get('/get/question/:id', routes.question);
 
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -36,7 +37,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
-        res.json({'error': err.status + ' not found'});
+        res.send(err.status, {'error': err.status + ' not found'});
     });
 }
 
