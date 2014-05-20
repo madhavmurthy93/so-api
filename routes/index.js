@@ -9,13 +9,20 @@ exports.index = function(req, res) {
 
 // get questions based on sort requested
 exports.search = function(req, res) {
+	var url ='';
 	var path = req.path;
 	var sort = path.split('/')[2];
 	var questions = 10;
 	if(req.params.limit) {
 		questions = req.params.limit;
 	}
-	var url = 'http://www.stackoverflow.com/questions?sort=' + sort + '&pageSize=' + questions;
+	var tag = '';
+	if(req.params.tag) {
+		tag = req.params.tag;
+		url = 'http://www.stackoverflow.com/questions/tagged/' + tag + '?sort=' + sort + '&pageSize=' + questions;
+	} else {
+		url = 'http://www.stackoverflow.com/questions?sort=' + sort + '&pageSize=' + questions;
+	}
 	var json = [];
 	request(url, function(err, response, body) {
 		if(err) console.log(err);
