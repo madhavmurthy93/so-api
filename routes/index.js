@@ -9,7 +9,7 @@ exports.index = function(req, res) {
 
 // get questions based on sort requested
 exports.search = function(req, res) {
-	var path = req.route.path;
+	var path = req.path;
 	var sort = path.split('/')[2];
 	var questions = 10;
 	if(req.params.limit) {
