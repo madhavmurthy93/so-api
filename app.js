@@ -22,11 +22,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', routes.index);
-app.get('/get/newest/:limit?/:tag?', routes.search);
-app.get('/get/featured/:limit?/:tag?', routes.search);
-app.get('/get/active/:limit?/:tag?', routes.search);
-app.get('/get/unanswered/:limit?/:tag?', routes.search);
-app.get('/get/frequent/:limit?/:tag?', routes.search);
+app.get('/get/newest/:tag?', routes.search);
+app.get('/get/featured/:tag?', routes.search);
+app.get('/get/active/:tag?', routes.search);
+app.get('/get/unanswered/:tag?', routes.search);
+app.get('/get/frequent/:tag?', routes.search);
 app.get('/get/question/:id', routes.question);
 
 app.use(function(req, res, next) {
