@@ -34,22 +34,22 @@ exports.search = function(req, res) {
 				tags = tags.trim();
 				var user_details = summary.children('.started').children('.user-info ').children('.user-details');
 				if(user_details.first().children('.community-wiki').html() != null) {
-					json.push({'question-id': id, 
+					json.push({'question': question, 
+						'question-id': id, 
+						'link': link,
 						'views': views,
 						'answers': answers,
-						'question': question, 
-						'link': link,
 						'tags': tags,
 						'user': 'community-wiki - community owned post',
 						'reputation-score': 'no rep score'});
 				} else {
 					var user = user_details.children('a').text();
 					var rep = user_details.children('.reputation-score').text();
-					json.push({'question-id': id, 
+					json.push({'question': question, 
+						'question-id': id, 
+						'link': link,
 						'views': views,
 						'answers': answers,
-						'question': question, 
-						'link': link,
 						'tags': tags,
 						'user': user,
 						'reputation-score': rep});
