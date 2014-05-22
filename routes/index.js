@@ -40,10 +40,10 @@ exports.search = function(req, res) {
 						'views': views,
 						'answers': answers,
 						'tags': tags,
-						'user': 'community-wiki - community owned post',
+						'asker': 'community-wiki - community owned post',
 						'reputation-score': 'no rep score'});
 				} else {
-					var user = user_details.children('a').text();
+					var asker = user_details.children('a').text();
 					var rep = user_details.children('.reputation-score').text();
 					json.push({'question': question, 
 						'question-id': id, 
@@ -51,7 +51,7 @@ exports.search = function(req, res) {
 						'views': views,
 						'answers': answers,
 						'tags': tags,
-						'user': user,
+						'asker': asker,
 						'reputation-score': rep});
 				}
 			});
@@ -130,7 +130,6 @@ exports.question = function(req, res) {
 						  'answer': answer});
 		});
 		res.json({'question': question,
-				  'tags': tags,
-				  'answers': answers});
+				  'tags': tags});
 	});
 }
