@@ -123,13 +123,15 @@ exports.question = function(req, res) {
 			var id = answer_summary.attr('data-answerid');
 			var answer = '';
 			answer_summary.children('table').children('tr').first().children('.answercell').children('.post-text').children().each(function() {
-				answer = answer + $(this).text() + ' ';
+				answer = answer + $(this).text().trim('\n') + ' ';
 			});
 			answer = answer.trim();
 			answers.push({'id': id,
 						  'answer': answer});
 		});
+		res.set({'content-type': 'application/json; charset=utf-8'});
 		res.json({'question': question,
-				  'tags': tags});
+				  'tags': tags,
+				  'answers': answers});
 	});
 }
