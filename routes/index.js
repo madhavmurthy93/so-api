@@ -105,7 +105,7 @@ function get_urls(tag_given, max, path) {
 }
 
 
-// attempt to get answers to questions. need to change.
+// get answers to questions
 exports.question = function(req, res) {
 	var url = 'http://stackoverflow.com/questions/' + req.params.id;
 	request(url, function(err, response, body) {
