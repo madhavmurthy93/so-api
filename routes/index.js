@@ -11,7 +11,7 @@ exports.index = function(req, res) {
 // get questions based on sort requested
 exports.search = function(req, res) {
 	var json = [];
-	var urls = get_urls(req.params.tag, req.query.limit, req.path);
+	var urls = get_urls(req.params.tag, req.query.max, req.path);
 	async.eachSeries(urls, function(url, callback) {
 		request(url, function(err, response, body) {
 			if(err) console.log(err);
@@ -67,15 +67,15 @@ exports.search = function(req, res) {
 	});
 };
 
-// gets array of urls based on user tag and questions limit input
-function get_urls(tag_given, limit, path) {
+// gets array of urls based on user tag and questions max input
+function get_urls(tag_given, max, path) {
 	var urls = [];
 	var base_url = 'http://www.stackoverflow.com/questions';
 	var sort = path.split('/')[2];
 	var questions = 10;
 	var pages = 0;
-	if(limit) {
-		questions = limit;
+	if(max) {
+		questions = max;
 		pages = Math.floor(questions / 50);
 	}
 	var tag = '';
