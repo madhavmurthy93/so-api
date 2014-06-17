@@ -25,12 +25,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', routes.index);
-app.get('/get/newest/:tag?', routes.search);
-app.get('/get/featured/:tag?', routes.search);
-app.get('/get/active/:tag?', routes.search);
-app.get('/get/unanswered/:tag?', routes.search);
-app.get('/get/frequent/:tag?', routes.search);
-app.get('/get/question/:id', routes.question);
+app.get('/newest/:tag?', routes.search);
+app.get('/featured/:tag?', routes.search);
+app.get('/active/:tag?', routes.search);
+app.get('/unanswered/:tag?', routes.search);
+app.get('/frequent/:tag?', routes.search);
 
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -49,7 +48,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-    res.json({'error': err.status + ' something wrong'});
+    res.send(err.status, {'error': err.status + ' something wrong'});
 });
 
 http.createServer(app).listen(app.get('port'), function() {

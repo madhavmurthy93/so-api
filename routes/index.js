@@ -23,6 +23,7 @@ exports.search = function(req, res) {
 				answers = answers.match(/[0-9]+/)[0];
 				var views = stats.children('.views ').text().trim().split(" ");
 				views = views[0];
+				var votes = stats.children('.stats').children('.vote').children('.votes').children('.vote-count-post ').text();
 				var id = question_summary.attr('id').split('-')[2];
 				var summary = question_summary.children('.summary');
 				var question = summary.children('h3').children('a').text();
@@ -32,26 +33,30 @@ exports.search = function(req, res) {
 					tags = tags + $(this).text() + ' ';
 				});
 				tags = tags.trim();
-				var user_details = summary.children('.started').children('.user-info ').children('.user-details');
-				if(user_details.first().children('.community-wiki').html() != null) {
+				var user_info = summary.children('.started').children('.user-info ');
+				if(user_info.children('.user-details').first().children('.community-wiki').html() != null) {
 					json.push({'question': question, 
 						'question-id': id, 
 						'link': link,
 						'views': views,
 						'answers': answers,
+						'votes': votes,
 						'tags': tags,
 						'asker': 'community-wiki - community owned post',
 						'reputation-score': 'no rep score'});
 				} else {
-					var asker = user_details.children('a').text();
-					var rep = user_details.children('.reputation-score').text();
+					var asker = user_info.children('.user-details').children('a').text();
+					var rep = user_info.children('.user-details').children('.reputation-score').text();
+					var time = user_info.children('.user-action-time').children('.relativetime').attr('title').replace("Z", "");
 					json.push({'question': question, 
 						'question-id': id, 
 						'link': link,
 						'views': views,
 						'answers': answers,
+						'votes': votes,
 						'tags': tags,
 						'asker': asker,
+						'time': time,
 						'reputation-score': rep});
 				}
 			});
@@ -71,7 +76,7 @@ exports.search = function(req, res) {
 function get_urls(tag_given, max, path) {
 	var urls = [];
 	var base_url = 'http://www.stackoverflow.com/questions';
-	var sort = path.split('/')[2];
+	var sort = path.split('/')[1];
 	var questions = 10;
 	var pages = 0;
 	if(max) {
@@ -102,36 +107,4 @@ function get_urls(tag_given, max, path) {
 		}
 	}
 	return urls;
-}
-
-
-// get answers to questions
-exports.question = function(req, res) {
-	var url = 'http://stackoverflow.com/questions/' + req.params.id;
-	request(url, function(err, response, body) {
-		if (err) console.log(err);
-		var $ = cheerio.load(body);
-		var question = $('#question-header h1 a').text();
-		var tags = '';
-		$('#mainbar .post-taglist a').each(function() {
-			tags = tags + $(this).text() + ' ';
-		});
-		tags = tags.trim();
-		var answers = [];
-		$('#mainbar .answer').each(function() {
-			var answer_summary = $(this);
-			var id = answer_summary.attr('data-answerid');
-			var answer = '';
-			answer_summary.children('table').children('tr').first().children('.answercell').children('.post-text').children().each(function() {
-				answer = answer + $(this).text().trim('\n') + ' ';
-			});
-			answer = answer.trim();
-			answers.push({'id': id,
-						  'answer': answer});
-		});
-		res.set({'content-type': 'application/json; charset=utf-8'});
-		res.json({'question': question,
-				  'tags': tags,
-				  'answers': answers});
-	});
 }
