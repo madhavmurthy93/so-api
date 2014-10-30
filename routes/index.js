@@ -67,7 +67,8 @@ exports.search = function(req, res) {
 			console.log(err);
 		} else {
 			res.set({'content-type': 'application/json; charset=utf-8'});
-			res.json({'questions': json});
+			res.json({'count': json.length,
+            'questions': json});
 		}
 	});
 };
