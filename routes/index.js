@@ -67,8 +67,10 @@ exports.search = function(req, res) {
 			console.log(err);
 		} else {
 			res.set({'content-type': 'application/json; charset=utf-8'});
-			res.json({'count': json.length,
-            'questions': json});
+			res.send(200, {
+                'count': json.length,
+                'questions': json
+            });
 		}
 	});
 };
