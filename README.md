@@ -44,7 +44,7 @@ http://localhost:3000/newest/java?max=30
 ```
 
 ### Example Response
-
+```json
 {
   "count": 2,
   "questions": [
@@ -74,3 +74,4 @@ http://localhost:3000/newest/java?max=30
     }
   ]
 }
+```
